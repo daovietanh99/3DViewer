@@ -1,0 +1,79 @@
+<html>
+<head>
+  <title>3D Model Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.121.1/examples/js/loaders/MTLLoader.js"></script>
+  <script>
+    // Set up the scene, camera, and renderer
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var renderer = new THREE.WebGLRenderer();
+    function resizeCanvas() {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    // Initial canvas resizing
+    resizeCanvas();
+    // Add an event listener to handle window resize events
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
+    document.getElementById("container").appendChild(renderer.domElement);
+  // Set up the 3D model
+  var model_path = window.location.hash.split("/")[window.location.hash.split("/").length - 1] + "/"
+  var mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setPath(model_path);
+  mtlLoader.load('model.obj.mtl', function (materials) {
+    materials.preload();
+    var objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.setPath(model_path);
+    objLoader.load('model.obj', function (object) {
+      scene.add(object);
+    });
+  });
+
+  // var loader = new THREE.GLTFLoader();
+  //   loader.load('3dvkist/model.glb', function (gltf) {
+  //     scene.add(gltf.scene);
+  // });
+
+  // Set up the camera controls
+  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.25;
+  controls.enableZoom = true;
+
+  // Add ambient light to the scene
+  var light = new THREE.PointLight(0xffffff, 1, 80);
+  light.position.set(0, 0, 50);
+  scene.add(light);
+
+  // Add a subtle ambient light to the scene
+  var ambientLight = new THREE.AmbientLight(0xcccccc);
+  scene.add(ambientLight);
+
+  // Set the camera position and angle
+  camera.position.z = 5;
+  camera.lookAt(scene.position);
+
+  // Render the scene
+  function render() {
+    requestAnimationFrame(render);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  render();
+  </script>
+</body>
