@@ -20,7 +20,15 @@
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    function resizeCanvas() {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    // Initial canvas resizing
+    resizeCanvas();
+    // Add an event listener to handle window resize events
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
     document.getElementById("container").appendChild(renderer.domElement);
   // Set up the 3D model
   var model_path = '3dvkist/'
