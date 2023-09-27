@@ -31,7 +31,7 @@
     });
     document.getElementById("container").appendChild(renderer.domElement);
   // Set up the 3D model
-  var model_path = "/"
+  var model_path = "./"
   var mtlLoader = new THREE.MTLLoader();
   mtlLoader.setPath(model_path);
   mtlLoader.load('model.obj.mtl', function (materials) {
