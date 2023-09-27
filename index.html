@@ -31,15 +31,15 @@
     });
     document.getElementById("container").appendChild(renderer.domElement);
   // Set up the 3D model
-  var model_path = '3dvkist/'
+  var model_path = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]
   var mtlLoader = new THREE.MTLLoader();
   mtlLoader.setPath(model_path);
-  mtlLoader.load('vkist-quad-refined.mtl', function (materials) {
+  mtlLoader.load('model.mtl', function (materials) {
     materials.preload();
     var objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.setPath(model_path);
-    objLoader.load('vkist-quad-refined.obj', function (object) {
+    objLoader.load('model.obj', function (object) {
       scene.add(object);
     });
   });
