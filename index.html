@@ -33,7 +33,7 @@
   // Set up the 3D model
   var model_path = window.location.hash.split("/")[window.location.hash.split("/").length - 1] + "/"
   var mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setPath(model_path); 
+  mtlLoader.setPath(model_path);
   mtlLoader.load('model.obj.mtl', function (materials) {
     materials.preload();
     var objLoader = new THREE.OBJLoader();
